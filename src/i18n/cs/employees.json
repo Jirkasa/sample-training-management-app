@@ -1,4 +1,10 @@
 {
+    "title": "Zaměstnanci",
+    "summary": "Celkem zaměstnanců: {totalCount}, z toho s chybějícím nebo propadlým povinným školením: {withProblemsCount}.",
+    "employee": "Zaměstnanec",
+    "missingCount": "Neabsolvováno",
+    "expiredCount": "Propadlé",
+    "expiringCount": "Končí do {renewalDaysBeforeExpiry} dní",
     "id": "Osobní číslo",
     "department": "Útvar",
     "position": "Pozice",

@@ -43,13 +43,16 @@ export class TrainingRequirementsService {
     return this.em.find(Employee, where, { populate: ['department', 'position'] });
   }
 
-  async findTrainingsRequiredFor(employee: Employee): Promise<Training[]> {
-    const trainings = await this.em.find(
+  findRequiredTrainings(): Promise<Training[]> {
+    return this.em.find(
       Training,
       { requirementScope: { $ne: RequirementScope.NONE } },
       { populate: ['requiredForDepartments', 'requiredForPositions'], orderBy: { name: 'asc' } },
     );
+  }
 
+  async findTrainingsRequiredFor(employee: Employee): Promise<Training[]> {
+    const trainings = await this.findRequiredTrainings();
     return trainings.filter((training) => isTrainingRequiredFor(training, employee));
   }
 

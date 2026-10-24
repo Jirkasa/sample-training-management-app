@@ -13,7 +13,12 @@ import {
   EmployeeDetailViewModel,
   RequiredTrainingViewModel,
 } from '../../view-models/employee-detail-view.model';
-import { compareValidUntil, TrainingRequirementsService } from '../training-requirements/training-requirements.service';
+import { EmployeeRowViewModel, EmployeesViewModel } from '../../view-models/employees-view.model';
+import {
+  compareValidUntil,
+  isTrainingRequiredFor,
+  TrainingRequirementsService,
+} from '../training-requirements/training-requirements.service';
 
 const STATES_TO_SOLVE = [TrainingState.MISSING, TrainingState.EXPIRED, TrainingState.EXPIRING];
 
@@ -24,6 +29,63 @@ export class EmployeesService {
     private readonly config: ConfigService<AppConfig, true>,
     private readonly trainingRequirements: TrainingRequirementsService,
   ) {}
+
+  async getEmployees(): Promise<EmployeesViewModel> {
+    const currentDate = today();
+    const employees = await this.em.find(Employee, {}, { populate: ['department', 'position'] });
+    const trainings = await this.trainingRequirements.findRequiredTrainings();
+    const completions = await this.em.find(TrainingCompletion, {});
+
+    const completionsByEmployeeAndTraining = new Map<string, TrainingCompletion[]>();
+    for (const completion of completions) {
+      const key = `${completion.employee.id}|${completion.training.code}`;
+      const employeeCompletions = completionsByEmployeeAndTraining.get(key) ?? [];
+      employeeCompletions.push(completion);
+      completionsByEmployeeAndTraining.set(key, employeeCompletions);
+    }
+
+    const rows = employees
+      .sort(
+        (a, b) => a.lastName.localeCompare(b.lastName, 'cs') || a.firstName.localeCompare(b.firstName, 'cs'),
+      )
+      .map((employee): EmployeeRowViewModel => {
+        const isActive = employee.status === EmployeeStatus.ACTIVE;
+        const states = isActive
+          ? trainings
+              .filter((training) => isTrainingRequiredFor(training, employee))
+              .map(
+                (training) =>
+                  this.trainingRequirements.evaluateTrainingStatus(
+                    completionsByEmployeeAndTraining.get(`${employee.id}|${training.code}`) ?? [],
+                    currentDate,
+                  ).state,
+              )
+          : [];
+        const missingCount = states.filter((state) => state === TrainingState.MISSING).length;
+        const expiredCount = states.filter((state) => state === TrainingState.EXPIRED).length;
+        const expiringCount = states.filter((state) => state === TrainingState.EXPIRING).length;
+
+        return {
+          id: employee.id,
+          name: `${employee.lastName} ${employee.firstName}`,
+          department: employee.department?.name ?? null,
+          position: employee.position.name,
+          statusLabelKey: `employees.statuses.${employee.status}`,
+          isActive,
+          missingCount,
+          expiredCount,
+          expiringCount,
+          highlight: missingCount + expiredCount > 0 ? 'danger' : expiringCount > 0 ? 'warning' : null,
+        };
+      });
+
+    return {
+      renewalDaysBeforeExpiry: this.config.get('renewalDaysBeforeExpiry', { infer: true }),
+      totalCount: rows.length,
+      withProblemsCount: rows.filter((row) => row.highlight === 'danger').length,
+      employees: rows,
+    };
+  }
 
   async getEmployeeDetail(id: string): Promise<EmployeeDetailViewModel> {
     const employee = await this.em.findOne(Employee, { id }, { populate: ['department', 'position'] });

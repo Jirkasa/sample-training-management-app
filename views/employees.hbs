@@ -1,0 +1,38 @@
+<p><a href="/">{{t "common.backToHome"}}</a></p>
+
+<h1>{{t "employees.title"}}</h1>
+
+<p>{{t "employees.summary" this}}</p>
+
+<table>
+    <thead>
+        <tr>
+            <th>{{t "employees.employee"}}</th>
+            <th>{{t "employees.department"}}</th>
+            <th>{{t "employees.position"}}</th>
+            <th>{{t "employees.status"}}</th>
+            <th>{{t "employees.missingCount"}}</th>
+            <th>{{t "employees.expiredCount"}}</th>
+            <th>{{t "employees.expiringCount" this}}</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each employees}}
+        <tr{{#if highlight}} class="{{highlight}}"{{/if}}>
+            <td><a href="/employees/{{id}}">{{name}}</a></td>
+            <td>{{#if department}}{{department}}{{else}}–{{/if}}</td>
+            <td>{{position}}</td>
+            <td>{{t statusLabelKey}}</td>
+            {{#if isActive}}
+            <td>{{missingCount}}</td>
+            <td>{{expiredCount}}</td>
+            <td>{{expiringCount}}</td>
+            {{else}}
+            <td>–</td>
+            <td>–</td>
+            <td>–</td>
+            {{/if}}
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
