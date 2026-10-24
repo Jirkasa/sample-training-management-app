@@ -1,6 +1,8 @@
 import { Injectable, Logger } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { EntityManager } from '@mikro-orm/sqlite';
 import path from 'path';
+import { AppConfig } from '../../config/configuration';
 import { Department } from '../../models/department';
 import { Employee, EmployeeStatus } from '../../models/employee';
 import { Position } from '../../models/position';
@@ -18,8 +20,6 @@ import {
   parseValidityMonths,
   toLookupKey,
 } from './value-parsers';
-
-const DATA_DIR = process.env.DATA_DIR ?? path.resolve(process.cwd(), 'data');
 
 // Dates before this limit are placeholders (e.g. 1. 1. 1900), not real dates.
 const PLACEHOLDER_DATE_LIMIT = '1901-01-01';
@@ -54,7 +54,10 @@ type Lookup<T> = Map<string, T>;
 export class DataImportService {
   private readonly logger = new Logger(DataImportService.name);
 
-  constructor(private readonly em: EntityManager) {}
+  constructor(
+    private readonly em: EntityManager,
+    private readonly config: ConfigService<AppConfig, true>,
+  ) {}
 
   async import(): Promise<void> {
     const em = this.em.fork();
@@ -82,7 +85,7 @@ export class DataImportService {
   }
 
   private read(fileName: string): Promise<CsvRow[]> {
-    return readCsv(path.join(DATA_DIR, fileName));
+    return readCsv(path.join(this.config.get('dataDir', { infer: true }), fileName));
   }
 
   private createDepartments(em: EntityManager, employeeRows: CsvRow[]): Lookup<Department> {

@@ -1,12 +1,15 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AcceptLanguageResolver, I18nModule } from 'nestjs-i18n';
 import path from 'path';
+import configuration from './config/configuration';
 import { DatabaseModule } from './database/database.module';
 import { TrainingSessionsModule } from './modules/training-sessions/training-sessions.module';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({ isGlobal: true, load: [configuration] }),
     DatabaseModule,
     TrainingSessionsModule,
     I18nModule.forRoot({

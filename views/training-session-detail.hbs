@@ -1,0 +1,45 @@
+<p><a href="/training-sessions">{{t "training-sessions.backToList"}}</a></p>
+
+<h1>{{trainingName}}</h1>
+
+<table>
+    <tbody>
+        <tr><th>{{t "training-sessions.code"}}</th><td>{{trainingCode}}</td></tr>
+        <tr>
+            <th>{{t "training-sessions.validity"}}</th>
+            <td>{{#if validityMonths}}{{t "training-sessions.validityMonths" this}}{{else}}{{t "training-sessions.unlimited"}}{{/if}}</td>
+        </tr>
+        <tr><th>{{t "training-sessions.date"}}</th><td>{{date}}</td></tr>
+        <tr><th>{{t "training-sessions.time"}}</th><td>{{time}}</td></tr>
+        <tr><th>{{t "training-sessions.location"}}</th><td>{{location}}</td></tr>
+        <tr><th>{{t "training-sessions.capacity"}}</th><td>{{capacity}}</td></tr>
+        <tr><th>{{t "training-sessions.occupied"}}</th><td>{{occupied}}</td></tr>
+        <tr><th>{{t "training-sessions.freeSeats"}}</th><td>{{freeSeats}}</td></tr>
+    </tbody>
+</table>
+
+{{#if isCancelled}}
+<p>{{t "training-sessions.cancelled"}}</p>
+{{else if isPast}}
+<p>{{t "training-sessions.past"}}</p>
+{{else}}
+
+<h2>{{t "training-sessions.suggestedTitle"}}</h2>
+
+{{#if suggestedEmployees.length}}
+<p>
+    {{t "training-sessions.suggestedInfo" this}}
+    {{#if freeSeats}}{{t "training-sessions.freeSeatsInfo" this}}{{else}}{{t "training-sessions.noFreeSeats"}}{{/if}}
+</p>
+{{> employee-suggestions employees=suggestedEmployees}}
+{{else}}
+<p>{{t "training-sessions.noSuggested"}}</p>
+{{/if}}
+
+{{#if showOptionalEmployees}}
+<h2>{{t "training-sessions.optionalTitle"}}</h2>
+<p>{{t "training-sessions.optionalInfo" this}}</p>
+{{> employee-suggestions employees=optionalEmployees}}
+{{/if}}
+
+{{/if}}

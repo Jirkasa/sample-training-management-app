@@ -1,16 +1,21 @@
 import { Module, OnModuleInit } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { MikroORM, SqliteDriver } from '@mikro-orm/sqlite';
+import { AppConfig } from '../config/configuration';
 import { entitySchemes } from './entity-schemes';
 import { DataImportService } from './import/data-import.service';
 
 @Module({
   imports: [
-    MikroOrmModule.forRoot({
+    MikroOrmModule.forRootAsync({
       driver: SqliteDriver,
-      dbName: process.env.DB_NAME ?? ':memory:',
-      entities: entitySchemes,
-      debug: process.env.DB_DEBUG === 'true',
+      inject: [ConfigService],
+      useFactory: (config: ConfigService<AppConfig, true>) => ({
+        dbName: config.get('database.name', { infer: true }),
+        debug: config.get('database.debug', { infer: true }),
+        entities: entitySchemes,
+      }),
     }),
   ],
   providers: [DataImportService],

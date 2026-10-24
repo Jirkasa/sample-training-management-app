@@ -1,0 +1,24 @@
+<table>
+    <thead>
+        <tr>
+            <th>{{t "training-sessions.order"}}</th>
+            <th>{{t "training-sessions.employee"}}</th>
+            <th>{{t "training-sessions.department"}}</th>
+            <th>{{t "training-sessions.position"}}</th>
+            <th>{{t "training-sessions.validUntil"}}</th>
+            <th>{{t "training-sessions.state"}}</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each employees}}
+        <tr class="{{state}}">
+            <td>{{order}}</td>
+            <td>{{name}}</td>
+            <td>{{#if department}}{{department}}{{else}}–{{/if}}</td>
+            <td>{{position}}</td>
+            <td>{{#if validUntil}}{{validUntil}}{{else}}–{{/if}}</td>
+            <td>{{t stateLabelKey this}}</td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
