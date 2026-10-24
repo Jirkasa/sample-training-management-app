@@ -2,9 +2,11 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AcceptLanguageResolver, I18nModule } from 'nestjs-i18n';
 import path from 'path';
+import { DatabaseModule } from './database/database.module';
 
 @Module({
   imports: [
+    DatabaseModule,
     I18nModule.forRoot({
       fallbackLanguage: 'cs',
       viewEngine: "hbs",
