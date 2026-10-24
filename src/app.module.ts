@@ -3,10 +3,12 @@ import { AppController } from './app.controller';
 import { AcceptLanguageResolver, I18nModule } from 'nestjs-i18n';
 import path from 'path';
 import { DatabaseModule } from './database/database.module';
+import { TrainingSessionsModule } from './modules/training-sessions/training-sessions.module';
 
 @Module({
   imports: [
     DatabaseModule,
+    TrainingSessionsModule,
     I18nModule.forRoot({
       fallbackLanguage: 'cs',
       viewEngine: "hbs",

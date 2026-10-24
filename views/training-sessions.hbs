@@ -1,0 +1,34 @@
+<h1>{{t "training-sessions.upcoming"}}</h1>
+
+{{#if sessions.length}}
+<table>
+    <thead>
+        <tr>
+            <th>{{t "training-sessions.training"}}</th>
+            <th>{{t "training-sessions.date"}}</th>
+            <th>{{t "training-sessions.time"}}</th>
+            <th>{{t "training-sessions.location"}}</th>
+            <th>{{t "training-sessions.capacity"}}</th>
+            <th>{{t "training-sessions.occupied"}}</th>
+            <th>{{t "training-sessions.freeSeats"}}</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each sessions}}
+        <tr>
+            <td>{{trainingName}}</td>
+            <td>{{date}}</td>
+            <td>{{time}}</td>
+            <td>{{location}}</td>
+            <td>{{capacity}}</td>
+            <td>{{occupied}}</td>
+            <td>{{freeSeats}}</td>
+            <td><a href="/training-sessions/{{id}}">{{t "training-sessions.detail"}}</a></td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+{{else}}
+<p>{{t "training-sessions.noUpcoming"}}</p>
+{{/if}}
