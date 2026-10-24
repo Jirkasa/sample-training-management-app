@@ -6,6 +6,7 @@ import path from 'path';
 import configuration from './config/configuration';
 import { DatabaseModule } from './database/database.module';
 import { EmployeesModule } from './modules/employees/employees.module';
+import { TrainingNeedsModule } from './modules/training-needs/training-needs.module';
 import { TrainingSessionsModule } from './modules/training-sessions/training-sessions.module';
 
 @Module({
@@ -14,6 +15,7 @@ import { TrainingSessionsModule } from './modules/training-sessions/training-ses
     DatabaseModule,
     TrainingSessionsModule,
     EmployeesModule,
+    TrainingNeedsModule,
     I18nModule.forRoot({
       fallbackLanguage: 'cs',
       viewEngine: "hbs",

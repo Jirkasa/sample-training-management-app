@@ -1,0 +1,53 @@
+<p><a href="/">{{t "common.backToHome"}}</a></p>
+
+<h1>{{t "training-needs.title"}}</h1>
+
+<p>{{t "training-needs.info" this}}</p>
+
+{{#if trainingsWithShortfallCount}}
+<p><strong>{{t "training-needs.shortfallSummary" this}}</strong></p>
+{{else}}
+<p>{{t "training-needs.noShortfall"}}</p>
+{{/if}}
+
+<table>
+    <thead>
+        <tr>
+            <th>{{t "training-needs.training"}}</th>
+            <th>{{t "training-needs.requiredCount"}}</th>
+            <th>{{t "training-needs.missingCount"}}</th>
+            <th>{{t "training-needs.expiredCount"}}</th>
+            <th>{{t "training-needs.expiringCount" this}}</th>
+            <th>{{t "training-needs.plannedCount"}}</th>
+            <th>{{t "training-needs.neededCount"}}</th>
+            <th>{{t "training-needs.upcomingSessionsCount"}}</th>
+            <th>{{t "training-needs.freeSeats"}}</th>
+            <th>{{t "training-needs.shortfall"}}</th>
+            <th>{{t "training-needs.nearestSession"}}</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each trainings}}
+        <tr{{#if highlight}} class="{{highlight}}"{{/if}}>
+            <td>{{trainingName}}</td>
+            <td>{{requiredCount}}</td>
+            <td>{{missingCount}}</td>
+            <td>{{expiredCount}}</td>
+            <td>{{expiringCount}}</td>
+            <td>{{plannedCount}}</td>
+            <td>{{neededCount}}</td>
+            <td>{{upcomingSessionsCount}}</td>
+            <td>{{freeSeats}}</td>
+            <td>{{shortfall}}</td>
+            <td>
+                {{#if nearestSession}}
+                <a href="/training-sessions/{{nearestSession.id}}">{{nearestSession.date}}</a>
+                ({{t "training-needs.nearestSessionFreeSeats" nearestSession}})
+                {{else}}
+                {{t "training-needs.noSession"}}
+                {{/if}}
+            </td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>

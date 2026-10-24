@@ -16,6 +16,7 @@ import {
 import { EmployeeRowViewModel, EmployeesViewModel } from '../../view-models/employees-view.model';
 import {
   compareValidUntil,
+  CompletionsIndex,
   isTrainingRequiredFor,
   TrainingRequirementsService,
 } from '../training-requirements/training-requirements.service';
@@ -34,15 +35,7 @@ export class EmployeesService {
     const currentDate = today();
     const employees = await this.em.find(Employee, {}, { populate: ['department', 'position'] });
     const trainings = await this.trainingRequirements.findRequiredTrainings();
-    const completions = await this.em.find(TrainingCompletion, {});
-
-    const completionsByEmployeeAndTraining = new Map<string, TrainingCompletion[]>();
-    for (const completion of completions) {
-      const key = `${completion.employee.id}|${completion.training.code}`;
-      const employeeCompletions = completionsByEmployeeAndTraining.get(key) ?? [];
-      employeeCompletions.push(completion);
-      completionsByEmployeeAndTraining.set(key, employeeCompletions);
-    }
+    const completions = new CompletionsIndex(await this.em.find(TrainingCompletion, {}));
 
     const rows = employees
       .sort(
@@ -55,10 +48,8 @@ export class EmployeesService {
               .filter((training) => isTrainingRequiredFor(training, employee))
               .map(
                 (training) =>
-                  this.trainingRequirements.evaluateTrainingStatus(
-                    completionsByEmployeeAndTraining.get(`${employee.id}|${training.code}`) ?? [],
-                    currentDate,
-                  ).state,
+                  this.trainingRequirements.evaluateTrainingStatus(completions.get(employee, training), currentDate)
+                    .state,
               )
           : [];
         const missingCount = states.filter((state) => state === TrainingState.MISSING).length;

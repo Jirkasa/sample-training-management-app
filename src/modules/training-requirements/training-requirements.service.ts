@@ -105,6 +105,25 @@ export function isTrainingRequiredFor(training: Training, employee: Employee): b
   }
 }
 
+export class CompletionsIndex {
+  private readonly completions = new Map<string, TrainingCompletion[]>();
+
+  constructor(completions: TrainingCompletion[]) {
+    for (const completion of completions) {
+      const key = toKey(completion.employee.id, completion.training.code);
+      this.completions.set(key, [...(this.completions.get(key) ?? []), completion]);
+    }
+  }
+
+  get(employee: Employee, training: Training): TrainingCompletion[] {
+    return this.completions.get(toKey(employee.id, training.code)) ?? [];
+  }
+}
+
+function toKey(employeeId: string, trainingCode: string): string {
+  return `${employeeId}|${trainingCode}`;
+}
+
 export function compareValidUntil(a: string | null, b: string | null): number {
   if (a === b) {
     return 0;

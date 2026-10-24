@@ -1,0 +1,19 @@
+{
+    "title": "Co je potřeba řešit",
+    "info": "Přehled povinných školení u aktivních zaměstnanců. Proškolit je potřeba ty, kteří školení nemají, mají ho propadlé nebo jim platnost skončí do {renewalDaysBeforeExpiry} dní. Jejich počet se porovnává s volnými místy na všech nadcházejících termínech.",
+    "shortfallSummary": "U {trainingsWithShortfallCount} školení nestačí kapacita nadcházejících termínů – je potřeba vypsat další termíny.",
+    "noShortfall": "Kapacita nadcházejících termínů stačí na všechna povinná školení.",
+    "training": "Školení",
+    "requiredCount": "Povinné pro",
+    "missingCount": "Neabsolvováno",
+    "expiredCount": "Propadlé",
+    "expiringCount": "Končí do {renewalDaysBeforeExpiry} dní",
+    "plannedCount": "Přihlášeno",
+    "neededCount": "Potřeba proškolit",
+    "upcomingSessionsCount": "Nadcházející termíny",
+    "freeSeats": "Volná místa",
+    "shortfall": "Chybí míst",
+    "nearestSession": "Nejbližší volný termín",
+    "nearestSessionFreeSeats": "volných míst: {freeSeats}",
+    "noSession": "Žádný volný termín"
+}
