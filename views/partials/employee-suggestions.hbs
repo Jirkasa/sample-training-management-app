@@ -13,7 +13,7 @@
         {{#each employees}}
         <tr class="{{state}}">
             <td>{{order}}</td>
-            <td>{{name}}</td>
+            <td><a href="/employees/{{employeeId}}">{{name}}</a></td>
             <td>{{#if department}}{{department}}{{else}}–{{/if}}</td>
             <td>{{position}}</td>
             <td>{{#if validUntil}}{{validUntil}}{{else}}–{{/if}}</td>

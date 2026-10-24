@@ -1,3 +1,5 @@
+import { TrainingState } from "../models/training-state";
+
 export type TrainingSessionDetailViewModel = {
     id: string;
     trainingCode: string;
@@ -15,14 +17,6 @@ export type TrainingSessionDetailViewModel = {
     suggestedEmployees: EmployeeSuggestionViewModel[];
     optionalEmployees: EmployeeSuggestionViewModel[];
     showOptionalEmployees: boolean;
-}
-
-export enum TrainingState {
-    MISSING = "missing",
-    EXPIRED = "expired",
-    EXPIRES_BEFORE_SESSION = "expires-before-session",
-    EXPIRING = "expiring",
-    VALID = "valid"
 }
 
 export type EmployeeSuggestionViewModel = {

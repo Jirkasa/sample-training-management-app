@@ -1,0 +1,37 @@
+{
+    "id": "Osobní číslo",
+    "department": "Útvar",
+    "position": "Pozice",
+    "status": "Stav",
+    "terminationDate": "Datum ukončení",
+    "statuses": {
+        "active": "Aktivní",
+        "parental_leave": "Rodičovská dovolená",
+        "terminated": "Ukončený pracovní poměr"
+    },
+    "toSolveTitle": "Školení k absolvování",
+    "toSolveInfo": "Povinná školení, která zaměstnanec nemá, má propadlá nebo jim platnost skončí do {renewalDaysBeforeExpiry} dní.",
+    "nothingToSolve": "Zaměstnanec má všechna povinná školení platná.",
+    "notActive": "Zaměstnanec není aktivní, školení se mu nenavrhují.",
+    "training": "Školení",
+    "validUntil": "Platnost do",
+    "state": "Stav",
+    "nearestSession": "Nejbližší volný termín",
+    "freeSeats": "volných míst: {freeSeats}",
+    "noSession": "Žádný volný termín",
+    "requiredStates": {
+        "missing": "Neabsolvováno",
+        "expired": "Propadlé",
+        "expiring": "Platnost končí za {daysLeft} dní"
+    },
+    "completionsTitle": "Absolvovaná školení",
+    "completionDate": "Datum absolvování",
+    "noCompletions": "Zaměstnanec zatím nemá žádné absolvované školení.",
+    "completionStates": {
+        "planned": "Naplánováno",
+        "unlimited": "Platné bez omezení",
+        "valid": "Platné",
+        "expired": "Propadlé",
+        "superseded": "Nahrazeno novějším"
+    }
+}

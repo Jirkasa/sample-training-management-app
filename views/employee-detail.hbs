@@ -1,0 +1,81 @@
+<p><a href="/">{{t "common.backToHome"}}</a></p>
+
+<h1>{{name}}</h1>
+
+<table>
+    <tbody>
+        <tr><th>{{t "employees.id"}}</th><td>{{id}}</td></tr>
+        <tr><th>{{t "employees.department"}}</th><td>{{#if department}}{{department}}{{else}}–{{/if}}</td></tr>
+        <tr><th>{{t "employees.position"}}</th><td>{{position}}</td></tr>
+        <tr><th>{{t "employees.status"}}</th><td>{{t statusLabelKey}}</td></tr>
+        {{#if terminationDate}}
+        <tr><th>{{t "employees.terminationDate"}}</th><td>{{terminationDate}}</td></tr>
+        {{/if}}
+    </tbody>
+</table>
+
+<h2>{{t "employees.toSolveTitle"}}</h2>
+
+{{#if isActive}}
+{{#if requiredTrainings.length}}
+<p>{{t "employees.toSolveInfo" this}}</p>
+<table>
+    <thead>
+        <tr>
+            <th>{{t "employees.training"}}</th>
+            <th>{{t "employees.validUntil"}}</th>
+            <th>{{t "employees.state"}}</th>
+            <th>{{t "employees.nearestSession"}}</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each requiredTrainings}}
+        <tr class="{{state}}">
+            <td>{{trainingName}}</td>
+            <td>{{#if validUntil}}{{validUntil}}{{else}}–{{/if}}</td>
+            <td>{{t stateLabelKey this}}</td>
+            <td>
+                {{#if nearestSession}}
+                <a href="/training-sessions/{{nearestSession.id}}">{{nearestSession.date}}, {{nearestSession.location}}</a>
+                ({{t "employees.freeSeats" nearestSession}})
+                {{else}}
+                {{t "employees.noSession"}}
+                {{/if}}
+            </td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+{{else}}
+<p>{{t "employees.nothingToSolve"}}</p>
+{{/if}}
+{{else}}
+<p>{{t "employees.notActive"}}</p>
+{{/if}}
+
+<h2>{{t "employees.completionsTitle"}}</h2>
+
+{{#if completions.length}}
+<table>
+    <thead>
+        <tr>
+            <th>{{t "employees.training"}}</th>
+            <th>{{t "employees.completionDate"}}</th>
+            <th>{{t "employees.validUntil"}}</th>
+            <th>{{t "employees.state"}}</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each completions}}
+        <tr>
+            <td>{{trainingName}}</td>
+            <td>{{completionDate}}</td>
+            <td>{{#if validUntil}}{{validUntil}}{{else}}–{{/if}}</td>
+            <td>{{t stateLabelKey}}</td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+{{else}}
+<p>{{t "employees.noCompletions"}}</p>
+{{/if}}
